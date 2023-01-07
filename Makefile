@@ -1,5 +1,5 @@
 run:
-	@cd ./cmd/payment && go run *.go
+	@cd ./cmd/subscription && go run *.go
 
 test:
 	@gotest ./...
