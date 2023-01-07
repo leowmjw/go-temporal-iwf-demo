@@ -13,3 +13,13 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Ignore Direnv
+.envrc*
+
+# Ignore Goland
+.idea
+
+# Ignore Terraform files
+.terraform*
+terraform.tfstate*
