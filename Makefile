@@ -1,6 +1,9 @@
 run:
 	@cd ./cmd/subscription && go run *.go
 
+start:
+	@curl http://localhost:8803/sim/start
+
 test:
 	@gotest ./...
 

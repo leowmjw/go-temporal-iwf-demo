@@ -2,7 +2,7 @@ package workflow
 
 import "github.com/indeedeng/iwf-golang-sdk/iwf"
 
-type __REPLACE__Workflow struct{}
+type SubscriptionWorkflow struct{}
 
 //func setupStates() (SteadyState, DiffState) {
 //	// Can it be shared? Risk for address will be multi-node is not by copy ..
@@ -11,7 +11,7 @@ type __REPLACE__Workflow struct{}
 //	return SteadyState{db: db}, DiffState{db: db}
 //}
 
-func (b __REPLACE__Workflow) GetStates() []iwf.StateDef {
+func (b SubscriptionWorkflow) GetStates() []iwf.StateDef {
 	//ss, ds := setupStates()
 	return []iwf.StateDef{
 		//iwf.NewStartingState(&stead{}),
@@ -19,17 +19,18 @@ func (b __REPLACE__Workflow) GetStates() []iwf.StateDef {
 		//iwf.NewStartingState(ss),
 		//iwf.NewNonStartingState(ApprovalState{}),
 		//iwf.NewNonStartingState(ds),
+		iwf.NewStartingState(Init_State{}),
 	}
 }
 
-func (b __REPLACE__Workflow) GetPersistenceSchema() []iwf.PersistenceFieldDef {
+func (b SubscriptionWorkflow) GetPersistenceSchema() []iwf.PersistenceFieldDef {
 	psc := []iwf.PersistenceFieldDef{
 		//iwf.NewDataObjectDef("TrackedTables"),
 	}
 	return psc
 }
 
-func (b __REPLACE__Workflow) GetCommunicationSchema() []iwf.CommunicationMethodDef {
+func (b SubscriptionWorkflow) GetCommunicationSchema() []iwf.CommunicationMethodDef {
 	cmd := []iwf.CommunicationMethodDef{
 		//iwf.NewSignalChannelDef(SignalName),
 		//iwf.NewInterstateChannelDef(SignalName),
@@ -39,6 +40,6 @@ func (b __REPLACE__Workflow) GetCommunicationSchema() []iwf.CommunicationMethodD
 	return cmd
 }
 
-func (b __REPLACE__Workflow) GetWorkflowType() string {
+func (b SubscriptionWorkflow) GetWorkflowType() string {
 	return ""
 }

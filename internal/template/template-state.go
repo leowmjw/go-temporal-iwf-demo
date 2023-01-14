@@ -1,8 +1,9 @@
 package template
 
 import (
-	"github.com/iworkflowio/iwf-golang-sdk/gen/iwfidl"
-	"github.com/iworkflowio/iwf-golang-sdk/iwf"
+	"fmt"
+	"github.com/indeedeng/iwf-golang-sdk/gen/iwfidl"
+	"github.com/indeedeng/iwf-golang-sdk/iwf"
 )
 
 // basic skeleton below; replace __REPLACE__ with your own ..
@@ -17,12 +18,13 @@ func (b __REPLACE__State) GetStateId() string {
 }
 
 func (b __REPLACE__State) Start(ctx iwf.WorkflowContext, input iwf.Object, persistence iwf.Persistence, communication iwf.Communication) (*iwf.CommandRequest, error) {
-	return nil, nil
+	fmt.Println("INIT_START")
+	return iwf.EmptyCommandRequest(), nil
 }
 
 func (b __REPLACE__State) Decide(ctx iwf.WorkflowContext, input iwf.Object, commandResults iwf.CommandResults, persistence iwf.Persistence, communication iwf.Communication) (*iwf.StateDecision, error) {
-	//var i int
-	return nil, nil
+	fmt.Println("INIT_DECIDE")
+	return iwf.GracefulCompleteWorkflow(1), nil
 }
 
 func (b __REPLACE__State) GetStateOptions() *iwfidl.WorkflowStateOptions {

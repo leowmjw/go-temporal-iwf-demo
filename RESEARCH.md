@@ -15,3 +15,7 @@
 ## Inter-Components / Mocks
 
 - buf.connect
+
+## REST API
+
+- Try both (inspired by .. chi or go-gateway?) -- not 
