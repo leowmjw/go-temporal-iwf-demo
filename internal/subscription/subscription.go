@@ -107,7 +107,7 @@ func BasicStartWorkflow(ctx context.Context, wf iwf.Workflow, startStateId strin
 }
 
 func BasicInvokeStartHandler(ctx context.Context, req iwfidl.WorkflowStateStartRequest) (*iwfidl.WorkflowStateStartResponse, error) {
-	// spew.Dump(req)
+	spew.Dump(req)
 	resp, err := workerService.HandleWorkflowStateStart(ctx, req)
 	if err != nil {
 		return nil, err

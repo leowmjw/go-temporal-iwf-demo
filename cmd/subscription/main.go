@@ -13,7 +13,7 @@ func main() {
 }
 
 func Run() {
-	fmt.Println("start running samples")
+	fmt.Println("start running Temporal + iWF Workers ..")
 	closeFn := startIWFWorker()
 	// Clean up iWF
 	defer closeFn()

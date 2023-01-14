@@ -11,15 +11,22 @@ type SubscriptionWorkflow struct{}
 //	return SteadyState{db: db}, DiffState{db: db}
 //}
 
+func setupStates() Init_State {
+	//db := &PostgresDB{}
+	return Init_State{}
+
+}
 func (b SubscriptionWorkflow) GetStates() []iwf.StateDef {
 	//ss, ds := setupStates()
+	is := setupStates()
 	return []iwf.StateDef{
 		//iwf.NewStartingState(&stead{}),
 		//iwf.NewNonStartingState(&basicWorkflowState2{}),
 		//iwf.NewStartingState(ss),
 		//iwf.NewNonStartingState(ApprovalState{}),
 		//iwf.NewNonStartingState(ds),
-		iwf.NewStartingState(Init_State{}),
+		// NOTE: If receiver is pointer; this will have to be too
+		iwf.NewStartingState(&is),
 	}
 }
 

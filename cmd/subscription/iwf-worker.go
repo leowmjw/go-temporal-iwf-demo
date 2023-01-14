@@ -4,7 +4,6 @@ import (
 	"app/internal/subscription"
 	"app/internal/subscription/workflow"
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
@@ -18,14 +17,18 @@ type iWFStateStartReq struct {
 	iwfidl.WorkflowStateStartRequest
 }
 
-func (i iWFStateStartReq) Bind(r *http.Request) error {
+func (i *iWFStateStartReq) Bind(r *http.Request) error {
 	fmt.Println("inside START .. bindingd ...")
 	// See if the bind works ..
-	spew.Dump(i.GetWorkflowStateId())
+	//spew.Dump(i.GetWorkflowStateId())
 	////TODO implement me
 	//panic("implement me")
 	//
-	i.SetWorkflowStateId("BOO")
+	// Two below causes crash; last one can manipulate but no effect
+	//i.SetWorkflowStateId("BOO")
+	//i.SetWorkflowType("unknown")
+	//i.Context.WorkflowId = "mleow-1"
+
 	// All OK after manipulation ..
 	return nil
 }
@@ -73,7 +76,7 @@ func setupServer() *http.Server {
 			fmt.Println("Call start ..")
 			// Extract out anything from the req ..
 			runID, err := subscription.BasicStartWorkflow(req.Context(),
-				workflow.SubscriptionWorkflow{},
+				&workflow.SubscriptionWorkflow{},
 				"InitID", 1)
 			if err != nil {
 				// We have Recoverer so can panic!
