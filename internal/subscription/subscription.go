@@ -99,7 +99,7 @@ func BasicStartWorkflow(ctx context.Context, wf iwf.Workflow, startStateId strin
 	runID, err := client.StartWorkflow(ctx, wf, wfID, 3600, input, nil)
 	if err != nil {
 		// TODO: If already runing; show handle it .. what is underlying error type?
-		if iwf.IsWorkflowNotExistsError(err) {
+		if iwf.IsWorkflowAlreadyStartedError(err) {
 			fmt.Println("workflow already started, use IdReusePolicy to select different behavior")
 		}
 		if iwf.IsClientError(err) {
