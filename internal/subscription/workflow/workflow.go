@@ -2,7 +2,9 @@ package workflow
 
 import "github.com/indeedeng/iwf-golang-sdk/iwf"
 
-type SubscriptionWorkflow struct{}
+type SubscriptionWorkflow struct {
+	iwf.DefaultWorkflowType
+}
 
 //func setupStates() (SteadyState, DiffState) {
 //	// Can it be shared? Risk for address will be multi-node is not by copy ..
@@ -45,8 +47,4 @@ func (b SubscriptionWorkflow) GetCommunicationSchema() []iwf.CommunicationMethod
 	// DEBUG
 	//spew.Dump(cmd)
 	return cmd
-}
-
-func (b SubscriptionWorkflow) GetWorkflowType() string {
-	return ""
 }

@@ -415,8 +415,8 @@ github.com/hashicorp/golang-lru v0.5.0/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ
 github.com/hashicorp/golang-lru v0.5.1/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ4Ao+sR/qLZy8=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
-github.com/indeedeng/iwf-golang-sdk v1.1.0 h1:5fFm/QYBQ2XQdl5yu6wzaypKJSVD2DT4fGzgZ2xVkI0=
-github.com/indeedeng/iwf-golang-sdk v1.1.0/go.mod h1:8TkeSg7Usu1nRfeZPBiRupYdTbZ+5XipJpq2RvHhm0w=
+github.com/indeedeng/iwf-golang-sdk v1.2.0 h1:FjlY+r36f18mPJEwWWn5x29R7H7hKv85yFYFxH9Ef1I=
+github.com/indeedeng/iwf-golang-sdk v1.2.0/go.mod h1:8TkeSg7Usu1nRfeZPBiRupYdTbZ+5XipJpq2RvHhm0w=
 github.com/jackc/pgpassfile v1.0.0 h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsIM=
 github.com/jackc/pgpassfile v1.0.0/go.mod h1:CEx0iS5ambNFdcRtxPj5JhEz+xB6uRky5eyVu/W2HEg=
 github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b h1:C8S2+VttkHFdOOCXJe+YGfa4vHYwlt4Zx+IVXQ97jYg=
