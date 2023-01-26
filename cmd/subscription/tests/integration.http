@@ -1,0 +1,10 @@
+### Start the Simulation of Subscription
+GET http://localhost:8803/sim/start
+
+> {%
+client.global.set("startSubs", "true")
+client.test("Start Subscription..", function() {
+  client.assert(response.status == "200","Did NOT start WF!")
+})
+
+%}

@@ -20,6 +20,7 @@ type PostgresDB struct {
 }
 
 type Init_State struct {
+	iwf.DefaultStateIdAndOptions
 	ID      string
 	history []string
 	//db      *PostgresDB
@@ -52,14 +53,17 @@ func (b *Init_State) Start(ctx iwf.WorkflowContext, input iwf.Object, persistenc
 	//}
 	//
 	spew.Dump(b)
-	time.Sleep(time.Second * 1) // Simulate some actions running ..
+	//time.Sleep(time.Second * 1) // Simulate some actions running ..
 
-	iwf.AnyCommandCompletedRequest(
-		iwf.NewTimerCommand("id", time.Now()),
+	cmdReq := iwf.AnyCommandCompletedRequest(
+		// If did not get want or don't want trial .. no decision ..
+		iwf.NewTimerCommand("idle-choose-trial", time.Now().Add(time.Minute)),
+		iwf.NewSignalCommand("choose-trial", "trialChannel"),
 	)
 	// Get Signal from user on trial or non-trial
 	// After 2 hours; abandon cart
-	return iwf.EmptyCommandRequest(), nil
+	//return iwf.EmptyCommandRequest(), nil
+	return cmdReq, nil
 }
 
 func (b Init_State) Decide(ctx iwf.WorkflowContext, input iwf.Object, commandResults iwf.CommandResults, persistence iwf.Persistence, communication iwf.Communication) (*iwf.StateDecision, error) {
@@ -74,7 +78,7 @@ func (b Init_State) Decide(ctx iwf.WorkflowContext, input iwf.Object, commandRes
 	// If cannot collect payment within the hour; abandon it --> FAILED
 
 	// Store history .. see if it appear or not ..
-	return iwf.GracefulCompleteWorkflow(1), nil
+	return iwf.GracefulCompleteWorkflow(0), nil
 }
 
 func (b Init_State) GetStateOptions() *iwfidl.WorkflowStateOptions {

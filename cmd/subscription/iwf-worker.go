@@ -76,15 +76,14 @@ func setupServer() *http.Server {
 			fmt.Println("Call start ..")
 			// Extract out anything from the req ..
 			runID, err := subscription.BasicStartWorkflow(req.Context(),
-				&workflow.SubscriptionWorkflow{},
-				"InitID", 1)
+				&workflow.SubscriptionWorkflow{}, 1)
 			if err != nil {
 				// We have Recoverer so can panic!
 				panic(err)
 				//w.WriteHeader(http.StatusInternalServerError)
 				//w.Write([]byte(err.Error()))
 			}
-			w.Write([]byte(fmt.Sprintf("Workflow mleow-o with RunID %s", runID)))
+			w.Write([]byte(fmt.Sprintf("Workflow mleow-0 with RunID %s", runID)))
 		})
 		// Send dummy signal to workflow ..
 		ri.Get("/signal", func(w http.ResponseWriter, req *http.Request) {
