@@ -1,4 +1,4 @@
-package template
+package collection
 
 import (
 	"app/internal/template/workflow"
@@ -9,6 +9,11 @@ import (
 	"github.com/indeedeng/iwf-golang-sdk/gen/iwfidl"
 	"github.com/indeedeng/iwf-golang-sdk/iwf"
 )
+
+// Summary of FSM
+// Objective: Attempt collection at various times in the day
+//	but must not have overlaps for each unique customer by CustomerID
+//	Rules + strategy for collection can dynamically change occasionally
 
 var client iwf.Client
 var workerService iwf.WorkerService

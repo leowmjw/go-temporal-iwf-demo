@@ -98,9 +98,11 @@ func BasicStartWorkflow(ctx context.Context, wf iwf.Workflow, input any) (string
 	//}
 	runID, err := client.StartWorkflow(ctx, wf, wfID, 3600, input, nil)
 	if err != nil {
-		// TODO: If already runing; show handle it .. what is underlying error type?
-		spew.Dump(err)
-		return "", err
+		// If already running; not fatal, just no-op
+		if !iwf.IsWorkflowAlreadyStartedError(err) {
+			spew.Dump(err)
+			return "", err
+		}
 	}
 
 	return runID, nil
