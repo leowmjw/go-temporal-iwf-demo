@@ -4,6 +4,7 @@ import (
 	"app/internal/subscription"
 	"app/internal/subscription/workflow"
 	"fmt"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
@@ -11,6 +12,9 @@ import (
 	"github.com/indeedeng/iwf-golang-sdk/iwf"
 	"log"
 	"net/http"
+	"net/url"
+
+	ur "github.com/unrolled/render"
 )
 
 type iWFStateStartReq struct {
@@ -70,13 +74,40 @@ func setupServer() *http.Server {
 
 	// RESTy routes for "simulation" resource
 	r.Route("/sim", func(ri chi.Router) {
-		// Attach common middleware unde rthis route?
+		// Subscription + Payment page ..
+		ri.Get("/subscription", func(w http.ResponseWriter, req *http.Request) {
+			fmt.Println("Sub + Payment ...")
+			v, err := url.ParseQuery(req.URL.RawQuery)
+			if err != nil {
+				render.Status(req, http.StatusInternalServerError)
+			}
+			if v.Has("dood") {
+				spew.Dump(v["dood"])
+			}
+			// render default page ..
+			// action=subscribe
+			if v.Get("action") == "subscribe" {
+				if v.Has("piID") {
+					subscription.ConfirmPaymentIntent(v.Get("piID"))
+				} else {
+					subscription.CreatePaymentIntent("dood")
+				}
+			} else {
+				r := ur.New(ur.Options{
+					Directory: "views",
+				})
+				err := r.HTML(w, http.StatusOK, "home", nil)
+				if err != nil {
+					render.Status(req, http.StatusInternalServerError)
+				}
+			}
+		})
 		// Start workflow ..
 		ri.Get("/start", func(w http.ResponseWriter, req *http.Request) {
 			fmt.Println("Call start ..")
 			// Extract out anything from the req ..
 			runID, err := subscription.BasicStartWorkflow(req.Context(),
-				&workflow.SubscriptionWorkflow{}, 1)
+				&workflow.SubscriptionWorkflow{}, "sub_1MVCpUJJLlTnVKtUCCLFkvMC")
 			if err != nil {
 				// We have Recoverer so can panic!
 				panic(err)
@@ -89,7 +120,12 @@ func setupServer() *http.Server {
 		ri.Get("/signal", func(w http.ResponseWriter, req *http.Request) {
 			fmt.Println("Call signal ...")
 		})
-
+		// Receive any webhook ..
+		ri.Post("/webhook", func(w http.ResponseWriter, req *http.Request) {
+			fmt.Println("Webhook ...")
+			r := ur.New()
+			r.JSON(w, http.StatusOK, map[string]string{"hello": "json"})
+		})
 	})
 
 	// Attach the iWF callback routes ..

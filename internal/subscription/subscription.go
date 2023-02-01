@@ -8,6 +8,10 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/indeedeng/iwf-golang-sdk/gen/iwfidl"
 	"github.com/indeedeng/iwf-golang-sdk/iwf"
+	"github.com/stripe/stripe-go/v74"
+	"strings"
+
+	"github.com/stripe/stripe-go/v74/paymentintent"
 )
 
 // ========================================
@@ -66,6 +70,12 @@ func BasicStartWorkflow(ctx context.Context, wf iwf.Workflow, input any) (string
 	//spew.Dump(ctx)
 	fmt.Println("REQID:", middleware.GetReqID(ctx))
 	wfID := "mleow-0"
+	// Override the SubsID ..
+	if v, ok := input.(string); ok {
+		if strings.Contains(v, "sub_") {
+			wfID = v
+		}
+	}
 	// If need options?
 	//wfOptions := iwf.WorkflowOptions{
 	//	WorkflowIdReusePolicy: nil,
@@ -126,4 +136,59 @@ func BasicInvokeDecideHandler(ctx context.Context, req iwfidl.WorkflowStateDecid
 	}
 
 	return resp, nil
+}
+
+func ConfirmPaymentIntent(piID string) {
+	stripe.Key = "sk_test_51MVCg1JJLlTnVKtUb4jx0jYfuRDjIk1wz2oArUcHGyef0d5uoPIcjGgLVOrJIDk6JHQnvsZTvt8psVuNytNcWCwu00xO72IcIC"
+
+	piID = "pi_3MWjv8JJLlTnVKtU1fcufqKq"
+	// Todo .. match client secret?
+
+	// To create a PaymentIntent for confirmation, see our guide at: https://stripe.com/docs/payments/payment-intents/creating-payment-intents#creating-for-automatic
+	//params := &stripe.PaymentIntentConfirmParams{
+	//	PaymentMethod: stripe.String("pm_card_visa"),
+	//	OffSession:    stripe.Bool(true),
+	//}
+	// Below example for ACH - pm_usBankAccount_success
+	params := &stripe.PaymentIntentConfirmParams{
+		PaymentMethod: stripe.String("pm_usBankAccount_success"),
+		OffSession:    stripe.Bool(true),
+		ReturnURL:     stripe.String("http://localhost:8803/sim/webhook"),
+	}
+	pi, err := paymentintent.Confirm(
+		piID,
+		params,
+	)
+	if err != nil {
+		spew.Dump(err)
+	} else {
+		spew.Dump(pi)
+	}
+}
+
+func CreatePaymentIntent(idemKey string) {
+
+	// Set your secret key. Remember to switch to your live secret key in production.
+	// See your keys here: https://dashboard.stripe.com/apikeys
+	stripe.Key = "sk_test_51MVCg1JJLlTnVKtUb4jx0jYfuRDjIk1wz2oArUcHGyef0d5uoPIcjGgLVOrJIDk6JHQnvsZTvt8psVuNytNcWCwu00xO72IcIC"
+
+	params := &stripe.PaymentIntentParams{
+		//PaymentMethodTypes: stripe.StringSlice([]string{
+		//	"card",
+		//	"us_bank_account",
+		//}),
+		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
+			Enabled: stripe.Bool(true),
+		},
+		Amount:   stripe.Int64(99),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Customer: stripe.String("cus_NHDbqmuqNVHF0R"),
+		//PaymentMethod: stripe.String("{{CARD_ID}}"),
+	}
+	pi, err := paymentintent.New(params)
+	if err != nil {
+		spew.Dump(err)
+	} else {
+		spew.Dump(pi)
+	}
 }

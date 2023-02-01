@@ -8,12 +8,15 @@ require (
 	github.com/go-chi/render v1.0.2
 	github.com/indeedeng/iwf-golang-sdk v1.2.0
 	github.com/jackc/pgx/v5 v5.2.0
+	github.com/stripe/stripe-go/v74 v74.6.0
+	github.com/unrolled/render v1.5.0
 	go.temporal.io/sdk v1.20.0
 )
 
 require (
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a // indirect
+	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/gogo/status v1.1.1 // indirect

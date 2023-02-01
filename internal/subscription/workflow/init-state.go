@@ -36,7 +36,7 @@ func (b *Init_State) Start(ctx iwf.WorkflowContext, input iwf.Object, persistenc
 	// Persist when the Draft Invoice is issued ..
 	// Once WF starts; it Calculates Next Billing Anchor
 	// Keep track of previous history; for invoice?
-	b.ID = "Dood"
+	b.ID = ctx.GetWorkflowId()
 	billingAnchor := fmt.Sprintf("2023%02d%02d", time.Now().Month(), time.Now().Day())
 	b.history = append(b.history, billingAnchor)
 	// DEBUG
@@ -74,8 +74,14 @@ func (b Init_State) Decide(ctx iwf.WorkflowContext, input iwf.Object, commandRes
 	// Non-Trial
 	// Once WF starts; it Calculates Next Billing Anchor
 	//	==> BillingAnchor - IdempotencyKey
+	invoiceCharge(b.history[0])
+	// Called Invoice Draft
 	// Get Payment --> ACTIVE
 	// If cannot collect payment within the hour; abandon it --> FAILED
+	// Returns SubsID: sub_1MVCpUJJLlTnVKtUCCLFkvMC
+	// Timestamp: 1677498260 - 1 month ..
+	// If async payment; send that off to active to wait + cancel
+	// Subscription Created - https://dashboard.stripe.com/test/events/evt_1MVCpWJJLlTnVKtUDZDIe5Qd
 
 	// Store history .. see if it appear or not ..
 	return iwf.GracefulCompleteWorkflow(0), nil
@@ -85,4 +91,16 @@ func (b Init_State) GetStateOptions() *iwfidl.WorkflowStateOptions {
 
 	//iwfidl.NewNullableWorkflowStateOptions(nil)
 	return nil
+}
+
+func invoiceCharge(billAnchor string) {
+	// InvoiceItem Created - https://dashboard.stripe.com/test/events/evt_1MVCpWJJLlTnVKtUnWwhcwUS
+	// Invoice Created (after payment)  - https://dashboard.stripe.com/test/events/evt_1MVCpWJJLlTnVKtUk4WTHQGJ
+	// Invoice Finalized - https://dashboard.stripe.com/test/events/evt_1MVCpWJJLlTnVKtUAmhBv7MA
+	// Invoice Paid - https://dashboard.stripe.com/test/events/evt_1MVCpWJJLlTnVKtUEENGk810
+	// Invoice Payment Succeed - https://dashboard.stripe.com/test/events/evt_1MVCpWJJLlTnVKtU9Dw9t1uh
+
+	// UL:
+	// ChargeMethod
+	// PaymentIntent
 }
