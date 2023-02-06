@@ -22,6 +22,8 @@ type InitState struct {
 // Start pulls the latest dynamic strategy as config; as input, normal no input
 func (b InitState) Start(ctx iwf.WorkflowContext, input iwf.Object, persistence iwf.Persistence, communication iwf.Communication) (*iwf.CommandRequest, error) {
 	fmt.Println("INIT_START")
+	// Kick off the simulation of payment ..
+	// Start with a dummy firt ..
 	return iwf.EmptyCommandRequest(), nil
 }
 

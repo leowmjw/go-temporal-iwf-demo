@@ -1,4 +1,7 @@
 run:
+	@cd ./cmd/collection && go run *.go
+
+runSub:
 	@cd ./cmd/subscription && go run *.go
 
 start:

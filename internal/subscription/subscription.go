@@ -164,6 +164,7 @@ func ConfirmPaymentIntent(piID string) {
 	} else {
 		spew.Dump(pi)
 	}
+
 }
 
 func CreatePaymentIntent(idemKey string) {

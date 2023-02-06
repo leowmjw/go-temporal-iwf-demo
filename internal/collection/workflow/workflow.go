@@ -20,7 +20,7 @@ func GetRegistry() iwf.Registry {
 
 type CollectionWorkflow struct {
 	iwf.EmptyCommunicationSchema
-	iwf.EmptyPersistenceSchema
+	//iwf.EmptyPersistenceSchema
 	iwf.DefaultWorkflowType
 }
 
@@ -39,16 +39,22 @@ func (b CollectionWorkflow) GetStates() []iwf.StateDef {
 		//iwf.StartingStateDef(ss),
 		//iwf.NonStartingStateDef(ApprovalState{}),
 		//iwf.NonStartingStateDef(ds),
+		iwf.StartingStateDef(&MockPaymentState{}),
 	}
 }
 
 // All below no need with above annotations
-//func (b CollectionWorkflow) GetPersistenceSchema() []iwf.PersistenceFieldDef {
-//	psc := []iwf.PersistenceFieldDef{
-//		iwf.DataObjectDef("TrackedTables"),
-//	}
-//	return psc
-//}
+// Not needed for statelocal ..
+
+func (b CollectionWorkflow) GetPersistenceSchema() []iwf.PersistenceFieldDef {
+	psc := []iwf.PersistenceFieldDef{
+		iwf.DataObjectDef("init"),
+		iwf.DataObjectDef("mock"),
+		iwf.DataObjectDef("mocker"),
+	}
+	return psc
+}
+
 //
 //func (b CollectionWorkflow) GetCommunicationSchema() []iwf.CommunicationMethodDef {
 //	cmd := []iwf.CommunicationMethodDef{
