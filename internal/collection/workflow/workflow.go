@@ -48,8 +48,8 @@ func (b CollectionWorkflow) GetStates() []iwf.StateDef {
 
 func (b CollectionWorkflow) GetPersistenceSchema() []iwf.PersistenceFieldDef {
 	psc := []iwf.PersistenceFieldDef{
-		iwf.DataObjectDef("init"),
-		iwf.DataObjectDef("mock"),
+		//iwf.DataObjectDef("init"),
+		//iwf.DataObjectDef("mock"),
 		iwf.DataObjectDef("mocker"),
 	}
 	return psc

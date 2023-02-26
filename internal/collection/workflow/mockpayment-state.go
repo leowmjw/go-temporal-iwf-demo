@@ -39,14 +39,15 @@ func (b MockPaymentState) Start(ctx iwf.WorkflowContext, input iwf.Object, persi
 	input.Get(&status)
 	if status != "" {
 		var l bool
-		persistence.GetDataObject("init", &l)
+		persistence.GetStateLocal("init", &l)
 		spew.Dump(l)
 		fmt.Println("Got STATUS:", status)
 		initialized = true
 		persistence.GetDataObject("mocker", &v)
 		spew.Dump(v)
 	} else {
-		persistence.GetDataObject("init", &initialized)
+		fmt.Println("non-empty Status; expect to see alert")
+		persistence.GetStateLocal("init", &initialized)
 		spew.Dump(initialized)
 	}
 
@@ -62,7 +63,7 @@ func (b MockPaymentState) Start(ctx iwf.WorkflowContext, input iwf.Object, persi
 		})
 		//persistence.SetStateLocal("mock", v)
 		persistence.SetDataObject("mocker", v)
-		persistence.SetDataObject("init", true)
+		persistence.SetStateLocal("init", true)
 		//persistence.SetStateLocal("mr", MockResponse{
 		//
 		//})
@@ -90,6 +91,10 @@ func (b MockPaymentState) Decide(ctx iwf.WorkflowContext, input iwf.Object, comm
 	spew.Dump(v)
 	//persistence.GetDataObject("mock", &v)
 	//spew.Dump(v)
+	var initialized bool
+	fmt.Println("non-empty Status; expect to see alert")
+	persistence.GetStateLocal("init", &initialized)
+	spew.Dump(initialized)
 
 	if len(v) == 0 {
 		fmt.Println("END!!!")
